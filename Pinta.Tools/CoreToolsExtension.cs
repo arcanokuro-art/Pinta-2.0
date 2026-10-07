@@ -60,6 +60,7 @@ public sealed class CoreToolsExtension : IExtension
 		PintaCore.Tools.AddTool (new PaintBrushTool (services));
 		PintaCore.Tools.AddTool (new PencilTool (services));
 		PintaCore.Tools.AddTool (new EraserTool (services));
+		PintaCore.Tools.AddTool (new RemoveAiTool (services));
 		PintaCore.Tools.AddTool (new PaintBucketTool (services));
 		PintaCore.Tools.AddTool (new GradientTool (services));
 		PintaCore.Tools.AddTool (new ColorPickerTool (services));
@@ -92,6 +93,7 @@ public sealed class CoreToolsExtension : IExtension
 		PintaCore.Tools.RemoveInstanceOfTool<PaintBrushTool> ();
 		PintaCore.Tools.RemoveInstanceOfTool<PencilTool> ();
 		PintaCore.Tools.RemoveInstanceOfTool<EraserTool> ();
+		PintaCore.Tools.RemoveInstanceOfTool<RemoveAiTool> ();
 		PintaCore.Tools.RemoveInstanceOfTool<PaintBucketTool> ();
 		PintaCore.Tools.RemoveInstanceOfTool<GradientTool> ();
 		PintaCore.Tools.RemoveInstanceOfTool<ColorPickerTool> ();
