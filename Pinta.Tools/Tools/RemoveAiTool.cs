@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 using System;
 using Cairo;
+using Gtk;
 using Pinta.Core;
 
 namespace Pinta.Tools;
@@ -14,6 +15,9 @@ public sealed class RemoveAiTool : BaseBrushTool
 {
 	private PointI? last_point;
 	private readonly IRemoveAiBackend backend = new MiganRemoveAiBackend ();
+	private Button? apply_button;
+	private Button? clear_button;
+	private Label? backend_status;
 
 	public RemoveAiTool (IServiceProvider services) : base (services) { }
 
@@ -25,6 +29,43 @@ public sealed class RemoveAiTool : BaseBrushTool
 	public override bool CursorChangesOnZoom => true;
 	public override Gdk.Key ShortcutKey => new (Gdk.Constants.KEY_R);
 	public override int Priority => 28;
+
+	protected override void OnBuildToolBar (Box tb)
+	{
+		base.OnBuildToolBar (tb);
+		tb.Append (GtkExtensions.CreateToolBarSeparator ());
+
+		backend_status = Label.New (backend.IsAvailable
+			? Translations.GetString ("MI-GAN: ready")
+			: Translations.GetString ("MI-GAN: local model not connected"));
+		tb.Append (backend_status);
+
+		clear_button = Button.NewWithLabel (Translations.GetString ("Clear mask"));
+		clear_button.OnClicked += (_, _) => ClearMask ();
+		tb.Append (clear_button);
+
+		apply_button = Button.NewWithLabel (Translations.GetString ("Apply Remove AI"));
+		apply_button.Sensitive = backend.IsAvailable;
+		apply_button.OnClicked += (_, _) => ApplyRemoveAi ();
+		tb.Append (apply_button);
+	}
+
+	private void ClearMask ()
+	{
+		if (!PintaCore.Workspace.HasOpenDocuments)
+			return;
+		Document document = PintaCore.Workspace.ActiveDocument;
+		document.Layers.ToolLayer.Clear ();
+		document.Workspace.Invalidate ();
+	}
+
+	private void ApplyRemoveAi ()
+	{
+		// Deliberately disabled until the Android ONNX adapter is connected.
+		// This method is the single UI entry point for validated local inference.
+		if (!backend.IsAvailable || !PintaCore.Workspace.HasOpenDocuments)
+			return;
+	}
 
 	public override Gdk.Cursor DefaultCursor {
 		get {
