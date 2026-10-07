@@ -1,0 +1,18 @@
+<Project>
+  <PropertyGroup>
+    <!-- The target framework can be set with an environment variable of the same name -->
+    <TargetFramework Condition=" '$(TargetFramework)' == '' ">net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+
+    <!-- Versioning and assembly info -->
+    <Version>3.1.2.0</Version>
+    <!-- User-facing version number, used for the version command line argument -->
+    <InformationalVersion>3.1.2</InformationalVersion>
+    <Authors>PintaProject</Authors>
+    <Company />
+    <Product />
+
+    <!-- Add an absolute path to a local GirCore source directory to use it instead of the NuGet package -->
+    <GirCoreSource />
+  </PropertyGroup>
+</Project>
