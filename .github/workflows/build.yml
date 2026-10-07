@@ -185,7 +185,7 @@ jobs:
     # Only enable signing for commits on the release branch.
     - name: Sign Installer
       if: github.event_name != 'pull_request'
-      uses: signpath/github-action-submit-signing-request@v2
+      uses: signpath/github-action-submit-signing-request@v3
       with:
         api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
         organization-id: "fb6d32c7-2808-4358-b9eb-f7482eb8c0a5"
